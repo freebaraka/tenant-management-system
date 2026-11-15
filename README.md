@@ -29,7 +29,7 @@ The screens observe `LiveData` from `TenantViewModel`. The ViewModel uses `Tenan
 | 3. Room database | Ian Simiyu | 189808 | [#3](https://github.com/freebaraka/tenant-management-system/pull/3) |
 | 4. Screens | Daniella Wanjohi | 176676 | [#2](https://github.com/freebaraka/tenant-management-system/pull/2) |
 | 5. Data integration | Kamure Beyonce Kabura | 179486 | [#4](https://github.com/freebaraka/tenant-management-system/pull/4) |
-| 6. Release | Brian Koech | 189722 | To be added |
+| 6. Release | Brian Koech | 189722 | [#5](https://github.com/freebaraka/tenant-management-system/pull/5) |
 
 ## Download
 
