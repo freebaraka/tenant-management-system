@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.tmsas.data.repository.TenantRepository
 import com.example.tmsas.databinding.FragmentDashboardBinding
+import androidx.fragment.app.activityViewModels
+import com.example.tmsas.ui.viewmodel.TenantViewModel
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
 
+    private val viewModel: TenantViewModel by activityViewModels()
     private val binding get() = _binding!!
     // 1. The Fragment OBJECT is created (no view yet)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +35,13 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("TENANT_LIFECYCLE", " DashboardFragment: onViewCreated")
-        val tenantCount = TenantRepository.tenants.size
-        val totalRent = TenantRepository.totalRent()
-        binding.tenantCountTextView.text = "Tenants\n$tenantCount"
-        binding.totalRentTextView.text = "Total rent\nKSh %,.0f".format(totalRent)
+
+        // Connect the ViewModel to the XML layout
+        binding.viewModel = viewModel
+
+        // Allow the layout to observe LiveData changes
+        binding.lifecycleOwner = viewLifecycleOwner
+
         binding.addTenantButton.setOnClickListener {
             val action = DashboardFragmentDirections.actionDashboardFragmentToAddTenantFragment()
             findNavController().navigate(action)

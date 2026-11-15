@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.example.tmsas.data.repository.TenantRepository
 import com.example.tmsas.databinding.FragmentViewTenantsBinding
+import androidx.fragment.app.activityViewModels
+import com.example.tmsas.ui.viewmodel.TenantViewModel
 
 class ViewTenantsFragment : Fragment() {
     private var _binding: FragmentViewTenantsBinding? = null
+    private val viewModel: TenantViewModel by activityViewModels()
     private val binding get() = _binding!!
     private val args: ViewTenantsFragmentArgs by navArgs()
     override fun onCreateView(
@@ -37,11 +39,10 @@ class ViewTenantsFragment : Fragment() {
                 startActivity(intent)
             }
         }
-        val tenants = TenantRepository.tenants
-        if (tenants.isEmpty()) {
-            binding.allTenantsTextView.text = "No tenants yet. Add one from the Dashboard."
-        } else {
-            binding.allTenantsTextView.text = tenants.joinToString("\n\n") { it.summary() }
+
+        // OBSERVER: runs now, and again every time allTenantsText changes
+        viewModel.allTenantsText.observe(viewLifecycleOwner) { text ->
+            binding.allTenantsTextView.text = text
         }
     }
     override fun onDestroyView() {

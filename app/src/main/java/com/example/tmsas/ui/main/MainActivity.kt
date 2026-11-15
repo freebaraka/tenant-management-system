@@ -45,7 +45,21 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
+
+        //changed this: binding.navView.setupWithNavController(navController) to this:
+        binding.navView.setNavigationItemSelectedListener { item ->
+            Log.d("DRAWER_DEBUG", "Clicked menu item: ${item.itemId}")
+
+            val handled = androidx.navigation.ui.NavigationUI
+                .onNavDestinationSelected(item, navController)
+
+            if (handled) {
+                binding.drawerLayout.closeDrawers()
+            }
+
+            handled
+        }
+
         val email = intent.getStringExtra("EMAIL")
         val headerBinding = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
         headerBinding.headerEmailTextView.text = email ?: "Signed in"
